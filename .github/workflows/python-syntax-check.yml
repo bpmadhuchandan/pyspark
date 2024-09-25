@@ -1,11 +1,9 @@
 name: Python Syntax Check
+
 on:
-  push:
-    branches:
-      - fetaure
   pull_request:
     branches:
-      - fetaure
+      - main
 
 jobs:
   lint:
@@ -24,6 +22,12 @@ jobs:
       run: |
         pip install flake8
 
-    - name: Run flake8
+    - name: Run flake8 on changed files
       run: |
-        flake8 .  # or specify your directory/file
+        # Check only the files that have changed
+        changed_files=$(git diff --name-only origin/main...HEAD)
+        if [ -z "$changed_files" ]; then
+          echo "No Python files have changed."
+        else
+          flake8 $changed_files
+        fi
