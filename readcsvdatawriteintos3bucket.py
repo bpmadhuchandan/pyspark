@@ -1,14 +1,14 @@
-Here’s a complete PySpark program that reads a CSV file, applies several common transformations, and then writes the transformed data back to an Amazon S3 bucket.
+# Here’s a complete PySpark program that reads a CSV file, applies several common transformations, and then writes the transformed data back to an Amazon S3 bucket.
 
-Steps in the Code:
+# Steps in the Code:
 
-1. Read CSV File: Load data from a CSV file.
-
-
-2. Apply Transformations: Apply a set of transformations such as filtering, selecting, adding new columns, renaming, and grouping data.
+# 1. Read CSV File: Load data from a CSV file.
 
 
-3. Write the Result to S3: Write the transformed data into an S3 bucket.
+# 2. Apply Transformations: Apply a set of transformations such as filtering, selecting, adding new columns, renaming, and grouping data.
+
+
+# 3. Write the Result to S3: Write the transformed data into an S3 bucket.
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, lit, when
@@ -47,39 +47,39 @@ df_grouped.write.mode("overwrite").csv(output_path, header=True)
 
 # Step 5: Stop the Spark session
 spark.stop()
-Explanation:
+# Explanation:
 
-SparkSession: Entry point for using Spark. We initialize it using SparkSession.builder().
+# SparkSession: Entry point for using Spark. We initialize it using SparkSession.builder().
 
-Read CSV: Use .read.option("header", "true") to load the CSV with the header and automatically infer the schema using inferSchema.
+# Read CSV: Use .read.option("header", "true") to load the CSV with the header and automatically infer the schema using inferSchema.
 
-Transformation 1 - Selecting Columns: The .select() method is used to select specific columns from the DataFrame.
+# Transformation 1 - Selecting Columns: The .select() method is used to select specific columns from the DataFrame.
 
-Transformation 2 - Filtering: The .filter() method is used to filter rows where the value of col2 is greater than 50.
+# Transformation 2 - Filtering: The .filter() method is used to filter rows where the value of col2 is greater than 50.
 
-Transformation 3 - Adding a New Column: The .withColumn() method adds a new column new_col based on the condition.
+# Transformation 3 - Adding a New Column: The .withColumn() method adds a new column new_col based on the condition.
 
-Transformation 4 - Renaming Columns: The .withColumnRenamed() method renames col1 to new_col1.
+# Transformation 4 - Renaming Columns: The .withColumnRenamed() method renames col1 to new_col1.
 
-Transformation 5 - Aggregation: The .groupBy() method groups data based on a column and applies aggregation using .sum().
+# Transformation 5 - Aggregation: The .groupBy() method groups data based on a column and applies aggregation using .sum().
 
-Write to S3: The transformed data is written to an S3 path using the .write.csv() method. mode("overwrite") ensures that existing data at the location is overwritten.
-
-
-Pre-requisites:
-
-1. AWS S3 Configuration: Ensure that your Spark environment has access to AWS credentials. If you're running on EMR or Databricks, credentials might already be configured. If running locally, configure AWS credentials:
-
-export AWS_ACCESS_KEY_ID='your-access-key'
-export AWS_SECRET_ACCESS_KEY='your-secret-key'
+# Write to S3: The transformed data is written to an S3 path using the .write.csv() method. mode("overwrite") ensures that existing data at the location is overwritten.
 
 
-2. Hadoop Configuration for S3: For PySpark to write to S3, it needs to know the S3A connector. Ensure you have the following dependencies:
+# Pre-requisites:
 
-Add hadoop-aws and aws-java-sdk jars to your PySpark session.
+# 1. AWS S3 Configuration: Ensure that your Spark environment has access to AWS credentials. If you're running on EMR or Databricks, credentials might already be configured. If running locally, configure AWS credentials:
+
+# export AWS_ACCESS_KEY_ID='your-access-key'
+# export AWS_SECRET_ACCESS_KEY='your-secret-key'
 
 
-.config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.2.0")
+# 2. Hadoop Configuration for S3: For PySpark to write to S3, it needs to know the S3A connector. Ensure you have the following dependencies:
+
+# Add hadoop-aws and aws-java-sdk jars to your PySpark session.
 
 
-3. S3 Path Format: Use the s3a:// prefix when dealing with S3 paths.
+# .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.2.0")
+
+
+# 3. S3 Path Format: Use the s3a:// prefix when dealing with S3 paths.
