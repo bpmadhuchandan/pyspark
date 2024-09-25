@@ -2,7 +2,7 @@ name: Python Syntax Check
 on:
   push:
     branches:
-      - main
+      - fetaure
   pull_request:
     branches:
       - fetaure
