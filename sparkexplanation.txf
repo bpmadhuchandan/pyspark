@@ -1,0 +1,22 @@
+Internal Working of Apache Spark
+Ever wondered how Apache Spark processes data at lightning speed? Here's a quick breakdown of what happens behind the scenes when you run a Spark job using spark-submit:
+
+Step 1: The client application submits a Spark job using spark-submit.
+
+Step 2: The request is received by the Cluster Manager (e.g., YARN, Mesos, Kubernetes), which coordinates resources. It launches the Spark Driver process on the cluster.
+
+Step 3: The Spark Driver creates a SparkContext or SparkSession, which manages the job execution:
+- It builds a Directed Acyclic Graph (DAG) that represents the transformations.
+- Once an action (e.g., count, collect) is triggered, the DAG Scheduler generates one or more jobs.
+- The DAG Scheduler divides the jobs into stages based on wide transformations (e.g., shuffles).
+- The Task Scheduler schedules tasks for each stage and assigns them to available executors on worker nodes.
+
+Step 4: The Spark Driver requests resources (CPU, memory) from the Cluster Manager.
+
+Step 5: The Cluster Manager allocates resources by launching executors on worker nodes.
+
+Step 6: The Spark Driver sends the task instructions and dependencies to the executors.
+
+Step 7: Executors execute the tasks, process data, and return results to the Driver. Executors also store intermediate results in memory for faster data processing.
+
+With its in-memory processing capability, Spark can process large datasets much faster than traditional systems, sometimes up to 100x faster!
